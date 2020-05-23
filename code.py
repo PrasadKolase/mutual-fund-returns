@@ -38,8 +38,9 @@ observed = pd.concat([return_rating.transpose(),risk_rating.transpose()],
                     axis=1, keys=['return','risk'])
 
 chi2, p, dof, ex = chi2_contingency(observed)
-print(chi2)
 
+print("p value :",p)
+print("Chi Statistic",chi2)
 # Code ends here
 
 
@@ -103,16 +104,20 @@ lasso_lambdas = [0.0001, 0.0003, 0.0006, 0.001, 0.003, 0.006, 0.01, 0.03, 0.06, 
 
 # Code starts here
 ridge_model = Ridge()
+
 ridge_grid = GridSearchCV(estimator=ridge_model, param_grid=dict(alpha=ridge_lambdas))
 ridge_grid.fit(X_train,y_train)
+
 y_pred = ridge_grid.predict(X_test)
 ridge_rmse = mean_squared_error(y_test,y_pred)**0.5
+print("ridge_rmse :",ridge_rmse)
 
 lasso_model = Lasso()
+
 lasso_grid = GridSearchCV(estimator=lasso_model, param_grid=dict(alpha=lasso_lambdas))
 lasso_grid.fit(X_train,y_train)
+
 y_pred = lasso_grid.predict(X_test)
 lasso_rmse = mean_squared_error(y_test,y_pred)**0.5
+print("lasso_rmse :",lasso_rmse)
 # Code ends here
-
-
